@@ -1,6 +1,5 @@
 class Player {
   PVector position;
-  String side;
   int health;
   final color base = color(255, 0, 0);
   final int w = 130, h = 20, velocity = 12;
