@@ -1,18 +1,16 @@
 class Player {
   PVector position;
-  int health;
+  int health, score = 0;
   final color 
     base_col = color(200, 200, 200), 
     stripe_col = color(255, 60, 60),
     circle_col = color(0, 155, 255),
     small_c_col = color(0, 205, 255);
   final int stripe_w = 40, circle_w = 20, small_c_w = 15;
-  
   final int w = 150, h = 30, velocity = 12;
   final float darkenAmount = 0.4;
   color darkerColor, brighterColor;
   
-
   Player() {
     reset();
   }
