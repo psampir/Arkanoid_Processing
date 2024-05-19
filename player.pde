@@ -1,8 +1,17 @@
 class Player {
   PVector position;
   int health;
-  final color base = color(255, 0, 0);
-  final int w = 130, h = 20, velocity = 12;
+  final color 
+    base_col = color(200, 200, 200), 
+    stripe_col = color(255, 60, 60),
+    circle_col = color(0, 155, 255),
+    small_c_col = color(0, 205, 255);
+  final int stripe_w = 40, circle_w = 20, small_c_w = 15;
+  
+  final int w = 150, h = 30, velocity = 12;
+  final float darkenAmount = 0.4;
+  color darkerColor, brighterColor;
+  
 
   Player() {
     reset();
@@ -28,7 +37,36 @@ class Player {
   }
 
   void draw() {
-    fill(base);
+    fill(circle_col);
+    circle(position.x + circle_w / 4, position.y + h / 2, circle_w);
+    circle(position.x + w - circle_w / 4, position.y + h / 2, circle_w);
+    
+    fill(small_c_col);
+    circle(position.x + circle_w / 4, position.y + h / 2, small_c_w);
+    circle(position.x + w - circle_w / 4, position.y + h / 2, small_c_w);
+    
+    darkerColor = lerpColor(stripe_col, color(0), darkenAmount);
+    brighterColor = lerpColor(stripe_col, color(255), darkenAmount);
+    
+    fill(darkerColor);
     rect(position.x, position.y, w, h);
+    
+    fill(brighterColor);
+    triangle(position.x, position.y, position.x + w, position.y, position.x, position.y + h);
+    
+    fill(stripe_col);
+    rect(position.x + w / 12, position.y + h / 10, w - 2 * (w / 12), h - 2 * (h / 10));
+    
+    darkerColor = lerpColor(base_col, color(0), darkenAmount);
+    brighterColor = lerpColor(base_col, color(255), darkenAmount);
+    
+    fill(darkerColor);
+    rect(position.x + stripe_w, position.y + h / 2, w - 2 * stripe_w, h / 2);
+    
+    fill(brighterColor);
+    rect(position.x + stripe_w, position.y, w - 2 * stripe_w, h / 2);
+    
+    fill(base_col);
+    rect(position.x + stripe_w, position.y + h / 10, w - 2 * stripe_w, h - 2 * (h / 10));
   }
 }

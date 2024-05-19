@@ -2,18 +2,20 @@ class Brick {
   PVector position;
   final float w = 100, h = 50;
   final color[] colors = {
-    color(255, 0, 0),     // Red
-    color(255, 165, 0),   // Orange
-    color(255, 255, 0),   // Yellow
-    color(0, 255, 0),     // Green
-    color(0, 0, 255),     // Blue
+    color(235, 0, 0),     // Red
+    color(235, 150, 0),   // Orange
+    color(235, 235, 0),   // Yellow
+    color(0, 235, 0),     // Green
+    color(0, 235, 235),   // Cyan
+    color(0, 0, 235),     // Blue
+
     //color(128, 0, 128),   // Purple
     color(255, 192, 203), // Pink
     color(255, 140, 0),   // Dark Orange
-    color(0, 255, 255),   // Cyan
+    
     color(255, 0, 255)    // Magenta
   };
-  float darkenAmount = 0.5;
+  final float darkenAmount = 0.4;
   color darkerColor, brighterColor;
   
   Brick(PVector pos) {
