@@ -4,13 +4,11 @@ class Ball {
   boolean sticky, bounced;
   int start_dir = 0;
   final float r = 15, eff_vel = sqrt(pow(speed, 2) * 2);
+  final int perimeter_w = 3, lift_h = 30, offset = 0;
+  float test_x, test_y, dist_x, dist_y, dist, overlapLeft, overlapRight, overlapTop, overlapBottom, minOverlap;
+  float[] overlaps = new float[4];
   final color inner_col = color(255, 255, 255), 
               outer_col = color(130, 130, 130);
-  final int perimeter_w = 3, lift_h = 30, offset = 0;
-  
-  float test_x, test_y, dist_x, dist_y, dist, 
-  overlapLeft, overlapRight, overlapTop, overlapBottom, minOverlap;
-  float[] overlaps = new float[4];
   
   Ball() {
     reset();
@@ -93,8 +91,10 @@ class Ball {
       velocity.x = 5 * direction;
     else if(abs(distance) < 60)
       velocity.x = 6 * direction;
+    else if(abs(distance) < 70)
+      velocity.x = 6.5 * direction;
     else
-      velocity.x = 7 * direction;
+      velocity.x = 6.9 * direction;
        
     velocity.y = calcVerticalVelocity(velocity.x, eff_vel);
     

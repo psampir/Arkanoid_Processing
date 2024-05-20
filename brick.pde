@@ -4,6 +4,7 @@ class Brick {
   final int w = 100, h = 50;
   final float darkenAmount = 0.4;
   int col_number;
+  color darkerColor, brighterColor;
   final color[] colors = {
     color(235, 0, 0),     // Red
     color(235, 150, 0),   // Orange
@@ -12,14 +13,7 @@ class Brick {
     color(0, 235, 235),   // Cyan
     color(0, 0, 235),     // Blue
     color(255, 0, 255),   // Magenta
-
-    //color(128, 0, 128),   // Purple
-    
-    color(255, 140, 0),   // Dark Orange
-    
-        // Magenta
   };
-  color darkerColor, brighterColor;
   
   Brick(PVector pos, int color_number) {
     reset(pos, color_number);

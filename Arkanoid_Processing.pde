@@ -76,7 +76,6 @@ void draw() {
   if(player.score >= 84)
     game_won = true;
     
-  
   // Drawing section
   
   player.draw();
