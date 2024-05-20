@@ -8,6 +8,7 @@ int block_no;
 color bg_color = color(0, 0, 50);
 
 void setup() {
+  print("Initialization...\n");
   size(1200, 1000);
   frameRate(120);
   keysDown = new boolean[256];
@@ -18,11 +19,12 @@ void setup() {
   block_no = 0;
   for(int i = 0; i < 12; i ++) {
     for(int j = 0; j < 7; j ++) {
-      bricks.add(new Brick(new PVector(i * brick_w, j * brick_h + brick_h * 2))); 
+      bricks.add(new Brick(new PVector(i * brick_w, j * brick_h + brick_h * 2), j)); 
       print("brick " + (block_no + 1) + " added: X=" + bricks.get(block_no).position.x + "; Y=" + bricks.get(block_no).position.y + "\n"); 
       block_no ++; 
     }
   }
+  print("Ready.\n");
 }
 
 void keyPressed() {
@@ -79,12 +81,8 @@ void draw() {
   
   player.draw();
   
-  block_no = 0;
-  for(int i = 0; i < 12; i ++) { // draw bricks
-    for(int j = 0; j < 7; j ++) {
-      bricks.get(block_no).draw(j);
-      block_no ++;
-    }
+  for(int i = 0; i < bricks.size(); i ++) {
+    bricks.get(i).draw();
   }
   
   ball.draw();
