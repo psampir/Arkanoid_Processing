@@ -41,14 +41,22 @@ class Ball {
   }
   
   void checkBounds() {
-    if(position.y - r <= 0) // top
-      velocity.y *= -1;
-    else if(position.y + r >= height){ // bottom
+    if(position.y + r >= height) { // bottom
       reset();
       player.health --;
     }
-    if((position.x - r <= 0 || position.x + r >= width)) // left & right
-      velocity.x *= -1;
+    
+    if(!bounced) {
+      if(position.y - r <= 0) { // top
+        bounced = true;
+        velocity.y *= -1;
+      }
+      
+      if((position.x - r <= 0 || position.x + r >= width)) { // left & right
+        bounced = true;
+        velocity.x *= -1;
+      }
+    }
   }
   
   void checkCollisionPlayer() {
@@ -64,7 +72,7 @@ class Ball {
 
   void checkCollisionBrick(Brick brick) {
     String collisionType = collision(brick.position, brick.w, brick.h);
-    if(collisionType != null && brick.destroyed == false && bounced == false) {
+    if(collisionType != null && !brick.destroyed && !bounced) {
         rebounceBrick(collisionType);
         print(frameCount + " hit brick... \n");
         brick.destroy();

@@ -71,10 +71,11 @@ void draw() {
   
   player.checkBounds();
   ball.checkSticky();
-  ball.checkBounds();
-  ball.checkCollisionPlayer();
   
   ball.bounced = false;
+  
+  ball.checkBounds();
+  ball.checkCollisionPlayer();
   
   for(int i = 0; i < bricks.size(); i ++)
     ball.checkCollisionBrick(bricks.get(i));
