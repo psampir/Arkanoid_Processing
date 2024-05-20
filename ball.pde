@@ -1,13 +1,12 @@
 class Ball {
   PVector position, velocity;
-  int speed = 4;
+  int speed = 5;
   boolean sticky, bounced;
-  int wait_bounce;
   int start_dir = 0;
-  final float r = 15;
+  final float r = 15, eff_vel = sqrt(pow(speed, 2) * 2);
   final color inner_col = color(255, 255, 255), 
               outer_col = color(130, 130, 130);
-  final int perimeter_w = 3, lift_h = 30;
+  final int perimeter_w = 3, lift_h = 30, offset = 0;
   
   float test_x, test_y, dist_x, dist_y, dist, 
   overlapLeft, overlapRight, overlapTop, overlapBottom, minOverlap;
@@ -25,11 +24,13 @@ class Ball {
       velocity = new PVector(-speed, -speed); // move left
     else
       velocity = new PVector(speed, -speed); // move right
+      
+    velocity = new PVector(0, speed); // for testing
   }
   
   void checkSticky() {
     if(sticky)
-      position = new PVector(player.position.x + player.w / 2, player.position.y - lift_h);
+      position = new PVector(player.position.x + player.w / 2 + offset, player.position.y - lift_h);
   }
   
   void move() {
@@ -52,33 +53,63 @@ class Ball {
     if(position.y + r >= player.position.y // is between top edge
     && position.y - r < player.position.y + player.h / 2 // and half height
     && position.x + r > player.position.x // is between left edge 
-    && position.x - r < player.position.x + player.w // and right edge
-    && wait_bounce <= 0) {
+    && position.x - r < player.position.x + player.w) { // and right edge
       print(frameCount + " hit player... \n");
       velocity.y = -speed;
-      wait_bounce = 10;
+      rebouncePlayer();
     }
-    
-    
-    //String collisionType = collision(player.position, player.w, player.h);
-    //if(collisionType != null && wait_bounce <= 0) {
-    //    print(frameCount + " hit player... \n");
-    //    wait_bounce = 10;
-    //    rebounce(collisionType);
-    //}     
-  }
+  } 
 
   void checkCollisionBrick(Brick brick) {
     String collisionType = collision(brick.position, brick.w, brick.h);
     if(collisionType != null && brick.destroyed == false && bounced == false) {
-        rebounce(collisionType);
+        rebounceBrick(collisionType);
         print(frameCount + " hit brick... \n");
         brick.destroy();
         player.score ++;
     }     
   }
+  
+  void rebouncePlayer() {
+    int direction;
+    float player_cent_w = player.position.x + player.w / 2; 
+    float distance = position.x - player_cent_w; // calculate the distance between the center of the player and the center of the ball
+    print(frameCount + " dist: " + distance + "\n"); // max-right = 89, max-left = -89
+        
+    if(distance < 0) // set direction of rebouncing
+      direction = -1;
+    else
+      direction = 1;   
+    
+    if(abs(distance) < 10) // set vertical velocity depending on the distance
+      velocity.x = 1 * direction;
+    else if(abs(distance) < 20)
+      velocity.x = 2 * direction;
+    else if(abs(distance) < 30)
+      velocity.x = 3 * direction;
+    else if(abs(distance) < 40)
+      velocity.x = 4 * direction;
+    else if(abs(distance) < 50)
+      velocity.x = 5 * direction;
+    else if(abs(distance) < 60)
+      velocity.x = 6 * direction;
+    else if(abs(distance) < 75)
+      velocity.x = 7 * direction;
+       
+    velocity.y = calcVerticalVelocity(velocity.x, eff_vel);
+    
+    print(frameCount + " vel E: " + eff_vel + "\n");
+    print(frameCount + " vel X: " + velocity.x + "\n");
+    print(frameCount + " vel Y: " + velocity.y + "\n");
+  }
+  
+   // calculate vertical velocity based on horizontal and effective velocities
+  float calcVerticalVelocity(float x_vel, float eff_vel) { 
+     float y_vel_sqr = pow(eff_vel, 2) - pow(x_vel, 2);
+     return -1 * sqrt(y_vel_sqr);
+   }
 
-  void rebounce(String collisionType) { // ball rebounce logic based on collisionType
+  void rebounceBrick(String collisionType) { // ball rebounce logic based on collisionType
     bounced = true;
     if(collisionType.equals("left") || collisionType.equals("right")) {
         velocity.x *= -1; // invert x direction

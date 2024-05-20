@@ -1,5 +1,5 @@
 boolean[] keysDown;
-boolean menu = false, game_over = false;
+boolean menu = false, game_over = false, game_won = false, mouse_ctrl = true;;
 Player player;
 Ball ball;
 int brick_w = 100, brick_h = 50;
@@ -8,7 +8,7 @@ int block_no;
 color bg_color = color(0, 0, 50);
 
 void setup() {
-  size(1200, 800);
+  size(1200, 1000);
   frameRate(120);
   keysDown = new boolean[256];
   player = new Player();
@@ -41,17 +41,21 @@ void draw() {
   
   // Moving section
   
-  if(!menu && !game_over) {
-    if (keysDown[37]) // O
-      player.move("LEFT");
-    if (keysDown[39]) // L
-      player.move("RIGHT");
- 
-    ball.move();
+  if(!mouse_ctrl) {
+    if(!menu && !game_over) {
+      if (keysDown[37]) // O
+        player.move("LEFT");
+      if (keysDown[39]) // L
+        player.move("RIGHT");
+      }
+  } else {
+    player.moveMouse();
+  }
+  
+  ball.move();
     
-    if(keyPressed && key == ' ') {
+  if(keyPressed && key == ' ' || mousePressed && (mouseButton == LEFT)) {
       ball.sticky = false;
-    }
   }
   
   // Checking section
@@ -62,11 +66,14 @@ void draw() {
   ball.checkCollisionPlayer();
   
   ball.bounced = false;
-  ball.wait_bounce --;
   
   for(int i = 0; i < bricks.size(); i ++) {
     ball.checkCollisionBrick(bricks.get(i));
   }
+  
+  if(player.score >= 84)
+    game_won = true;
+    
   
   // Drawing section
   
@@ -89,5 +96,5 @@ void draw() {
   //text("ball_y: " + str(ball.position.y), width / 64, height / 32 * 2.5);
   textAlign(RIGHT, CENTER);
   text("health: " + str(player.health), width / 64 * 64, height / 32);
-  text("score: " + str(player.score), width / 64 * 64, height / 32 * 2.5);
+  text("score: " + str(player.score), width / 64 * 64, height / 32 * 2.1);
 }

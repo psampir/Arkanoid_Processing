@@ -21,6 +21,10 @@ class Player {
     else if (direction.equals("RIGHT"))
       position.x += velocity;
   }
+  
+  void moveMouse() {
+    position.x = mouseX - w / 2;
+  }
 
   void checkBounds() {
     if (position.x > width - w) // right bound
