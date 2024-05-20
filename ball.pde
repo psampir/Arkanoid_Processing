@@ -93,7 +93,7 @@ class Ball {
       velocity.x = 5 * direction;
     else if(abs(distance) < 60)
       velocity.x = 6 * direction;
-    else if(abs(distance) < 75)
+    else
       velocity.x = 7 * direction;
        
     velocity.y = calcVerticalVelocity(velocity.x, eff_vel);
@@ -137,8 +137,7 @@ class Ball {
     dist_y = position.y - test_y;
     dist = sqrt(pow(dist_x, 2) + pow(dist_y, 2));
           
-    if(dist <= r) {
-        // determine the collision side
+    if(dist <= r) { // determine the collision side
         overlaps[0] = position.x - (rect_pos.x - r); // left
         overlaps[1] = (rect_pos.x + rect_w + r) - position.x; // right
         overlaps[2] = position.y - (rect_pos.y - r); // top
@@ -155,11 +154,9 @@ class Ball {
         if (minOverlap == overlaps[3]) 
           return "bottom";
     }
-    
     return null;
   }
 
-  
   void draw() {
     fill(outer_col);
     circle(position.x, position.y, r * 2);
@@ -167,5 +164,4 @@ class Ball {
     fill(inner_col);
     circle(position.x, position.y, r * 2 - perimeter_w);
   }
-  
 }
