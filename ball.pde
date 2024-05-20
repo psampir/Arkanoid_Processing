@@ -1,9 +1,9 @@
 class Ball {
   PVector position, velocity;
-  int speed = 5;
   boolean sticky, bounced;
   int start_dir = 0;
-  final float r = 15, eff_vel = sqrt(pow(speed, 2) * 2);
+  final int r = 15, speed = 5;
+  final float eff_vel = sqrt(pow(speed, 2) * 2);
   final int perimeter_w = 3, lift_h = 30, offset = 0;
   float test_x, test_y, dist_x, dist_y, dist, overlapLeft, overlapRight, overlapTop, overlapBottom, minOverlap;
   float[] overlaps = new float[4];
@@ -23,12 +23,16 @@ class Ball {
     else
       velocity = new PVector(speed, -speed); // move right
       
-    velocity = new PVector(0, speed); // for testing
+    //velocity = new PVector(0, speed); // for testing
   }
   
   void checkSticky() {
     if(sticky)
-      position = new PVector(player.position.x + player.w / 2 + offset, player.position.y - lift_h);
+      stick();
+  }
+  
+  void stick() {
+    position = new PVector(player.position.x + player.w / 2 + offset, player.position.y - lift_h);
   }
   
   void move() {
@@ -37,13 +41,13 @@ class Ball {
   }
   
   void checkBounds() {
-    if(position.y - r < 0) // top
+    if(position.y - r <= 0) // top
       velocity.y *= -1;
-    else if(position.y + r > height){ // bottom
+    else if(position.y + r >= height){ // bottom
       reset();
       player.health --;
     }
-    if((position.x - r < 0 || position.x + r > width)) // left & right
+    if((position.x - r <= 0 || position.x + r >= width)) // left & right
       velocity.x *= -1;
   }
   
@@ -157,11 +161,11 @@ class Ball {
     return null;
   }
 
-  void draw() {
+  void draw(PVector position, int radius) {
     fill(outer_col);
-    circle(position.x, position.y, r * 2);
+    circle(position.x, position.y, radius * 2);
     
     fill(inner_col);
-    circle(position.x, position.y, r * 2 - perimeter_w);
+    circle(position.x, position.y, radius * 2 - radius * 0.2);
   }
 }

@@ -35,6 +35,7 @@ class Player {
   void reset() {
     position = new PVector(width / 2 - w / 2, height - h / 2 - 50);
     health = 3;
+    score = 0;
   }
 
   void draw() {
