@@ -49,13 +49,22 @@ class Ball {
     if(!bounced) {
       if(position.y - r <= 0) { // top
         bounced = true;
-        velocity.y *= -1;
+        velocity.y = abs(velocity.y) * -1;
+        print(frameCount + " hit top bound... \n");
       }
       
-      if((position.x - r <= 0 || position.x + r >= width)) { // left & right
+      if((position.x - r <= 0)) { // left
         bounced = true;
-        velocity.x *= -1;
+        velocity.x = abs(velocity.x);
+        print(frameCount + " hit left bound... \n");
       }
+      
+      if((position.x + r >= width)) { // right
+        bounced = true;
+        velocity.x = abs(velocity.x) * - 1;
+        print(frameCount + " hit right bound... \n");
+      }
+      
     }
   }
   

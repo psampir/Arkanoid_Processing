@@ -10,7 +10,7 @@ color bg_color = color(0, 0, 50);
 final int FR = 120;
 
 void setup() {
-  print("Initialization...\n");
+  print(frameCount + " Initialization...\n");
   size(1200, 1000);
   frameRate(FR);
   keysDown = new boolean[256];
@@ -22,11 +22,11 @@ void setup() {
   for(int i = 0; i < 12; i ++) {
     for(int j = 0; j < 7; j ++) {
       bricks.add(new Brick(new PVector(i * brick_w, j * brick_h + brick_h * 2), j)); 
-      print("brick " + (block_no + 1) + " added: X=" + bricks.get(block_no).position.x + "; Y=" + bricks.get(block_no).position.y + "\n"); 
+      print(frameCount + " brick " + (block_no + 1) + " added: X=" + bricks.get(block_no).position.x + "; Y=" + bricks.get(block_no).position.y + "\n"); 
       block_no ++; 
     }
   }
-  print("Ready.\n");
+  print(frameCount + " Ready.\n");
 }
 
 void keyPressed() {
