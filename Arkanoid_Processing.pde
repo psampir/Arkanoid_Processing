@@ -7,12 +7,13 @@ int brick_w = 100, brick_h = 50;
 ArrayList<Brick> bricks;
 int block_no;
 color bg_color = color(0, 0, 50);
-final int FR = 120;
+final int FPS = 120;
 
 void setup() {
   print(frameCount + " Initialization...\n");
   size(1200, 1000);
-  frameRate(FR);
+  //pixelDensity(displayDensity());
+  frameRate(FPS);
   keysDown = new boolean[256];
   player = new Player();
   ball = new Ball();
@@ -90,14 +91,22 @@ void draw() {
   for(int i = 0; i < bricks.size(); i ++)
     bricks.get(i).draw();
   
-  if(player.health > 2)
-    ball.draw(new PVector(width / 64.0 * 30.5, height / 64), 10);
-  if(player.health > 1)
-    ball.draw(new PVector(width / 64.0 * 32.0, height / 64), 10);
-  if(player.health > 0)
-    ball.draw(new PVector(width / 64.0 * 33.5, height / 64), 10);
+  if(!title_screen) {
+    if(player.health > 2)
+      ball.draw(new PVector(width / 64.0 * 30.5, height / 64 * 65.5), 10);
+    if(player.health > 1)
+      ball.draw(new PVector(width / 64.0 * 32.0, height / 64 * 65.5), 10);
+    if(player.health > 0)
+      ball.draw(new PVector(width / 64.0 * 33.5, height / 64 * 65.5), 10);
+    textAlign(LEFT, CENTER);
+    textSize(30);
+    fill(255);
+    text("SCORE: " + player.score, width / 64 * 0.5, height / 64);
+  }
   if(player.health > -1)
     ball.draw(ball.position, ball.r);
+  
+  
   
   if(game_over) {
     title_screen = false;
@@ -118,7 +127,7 @@ void draw() {
     fill(255);
     textSize(40);
     textAlign(CENTER, CENTER);
-    if(frameCount % FR * 2 < FR) {
+    if(frameCount % FPS * 2 < FPS) {
       text("Press ENTER to continue", width / 2, height / 20 * 13.75);
     }
     if(keyPressed && key == ENTER) {
@@ -130,7 +139,6 @@ void draw() {
       for(int i = 0; i < bricks.size(); i ++)
         bricks.get(i).destroyed = false;
     }
-    
   }
   
   if(title_screen) {
@@ -145,7 +153,7 @@ void draw() {
     
     textSize(40);
     textAlign(CENTER, CENTER);
-    if(frameCount % FR * 2 < FR) {
+    if(frameCount % FPS * 2 < FPS) {
       text("Press spacebar to play using arrows", width / 2, height / 20 * 13.25);
       text("or left click to play using the cursor", width / 2, height / 20 * 14.15);
     }
