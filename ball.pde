@@ -49,7 +49,7 @@ class Ball {
     if(!bounced) {
       if(position.y - r <= 0) { // top
         bounced = true;
-        velocity.y = abs(velocity.y) * -1;
+        velocity.y = abs(velocity.y);
         print(frameCount + " hit top bound... \n");
       }
       

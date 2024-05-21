@@ -90,15 +90,14 @@ void draw() {
   for(int i = 0; i < bricks.size(); i ++)
     bricks.get(i).draw();
   
-  if(player.health >= 0)
-    ball.draw(ball.position, ball.r);
-  
   if(player.health > 2)
     ball.draw(new PVector(width / 64.0 * 30.5, height / 64), 10);
   if(player.health > 1)
     ball.draw(new PVector(width / 64.0 * 32.0, height / 64), 10);
   if(player.health > 0)
     ball.draw(new PVector(width / 64.0 * 33.5, height / 64), 10);
+  if(player.health > -1)
+    ball.draw(ball.position, ball.r);
   
   if(game_over) {
     title_screen = false;
