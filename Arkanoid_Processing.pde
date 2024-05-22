@@ -11,7 +11,7 @@ final int FPS = 120;
 
 void setup() {
   print(frameCount + " Initialization...\n");
-  size(1200, 1000);
+  size(1200, 900);
   //pixelDensity(displayDensity());
   frameRate(FPS);
   keysDown = new boolean[256];
@@ -145,7 +145,7 @@ void draw() {
     fill(255, 255, 0);
     textSize(200);
     textAlign(CENTER, CENTER);
-    text("ARKANOID", width / 2, height / 20.0 * 11.0);
+    text("ARKANOID", width / 2, height / 20.0 * 11.75);
     textSize(20);
     textAlign(RIGHT, CENTER);
     fill(255);
@@ -154,8 +154,8 @@ void draw() {
     textSize(40);
     textAlign(CENTER, CENTER);
     if(frameCount % FPS * 2 < FPS) {
-      text("Press spacebar to play using arrows", width / 2, height / 20 * 13.25);
-      text("or left click to play using the cursor", width / 2, height / 20 * 14.15);
+      text("Press spacebar to play using arrows", width / 2, height / 20 * 14);
+      text("or left click to play using the cursor", width / 2, height / 20 * 15);
     }
     fill(255, 255, 0);
     textSize(20);
