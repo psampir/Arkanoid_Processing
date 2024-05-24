@@ -1,18 +1,26 @@
 String version = "1.0.0";
+final int FPS = 60;
 boolean[] keysDown;
-boolean title_screen = true, game_over = false, mouse_ctrl = true;;
-Player player;
-Ball ball;
-int brick_w = 100, brick_h = 50;
+boolean title_screen = true, game_over = false, mouse_ctrl = true, show_fps = false;
 ArrayList<Brick> bricks;
 int block_no;
 color bg_color = color(0, 0, 50);
-final int FPS = 120;
+float gUnit, gWidth, margin, brick_w, brick_h;
+Player player;
+Ball ball;
 
 void setup() {
   print(frameCount + " Initialization...\n");
-  size(1200, 900);
+  fullScreen();
   //pixelDensity(displayDensity());
+  gUnit = height / 1000.0;
+  gWidth = gUnit * 1200;
+  margin = (width - gWidth) / 2;
+  brick_w = 100 * gUnit;
+  brick_h = 50 * gUnit;
+  print("gU: " + gUnit + "\n");
+  print("gW: " + gWidth + "\n");
+  print("uW: " + margin + "\n");
   frameRate(FPS);
   keysDown = new boolean[256];
   player = new Player();
@@ -22,7 +30,7 @@ void setup() {
   block_no = 0;
   for(int i = 0; i < 12; i ++) {
     for(int j = 0; j < 7; j ++) {
-      bricks.add(new Brick(new PVector(i * brick_w, j * brick_h + brick_h * 2), j)); 
+      bricks.add(new Brick(new PVector(margin + i * brick_w, j * brick_h + brick_h * 2), j)); 
       print(frameCount + " brick " + (block_no + 1) + " added: X=" + bricks.get(block_no).position.x + "; Y=" + bricks.get(block_no).position.y + "\n"); 
       block_no ++; 
     }
@@ -58,17 +66,21 @@ void draw() {
     
     if(keyPressed && key == ' ' || mousePressed && mouseButton == LEFT)
       ball.sticky = false;
-  }
   
-  if(keyPressed && key == 'o')
-    game_over = true;
-    
-  if(keyPressed && key == 'w')
-    player.score = 100;
-  
-  ball.move();
+    ball.move();
+  }  
   
   // Checking section
+  
+  if(keyPressed && key == 'f') {
+    if(!show_fps)
+      show_fps = true;
+    else
+      show_fps = false;
+  }
+  
+  if(keyPressed && key == '`')
+    player.score = 84;
   
   player.checkBounds();
   ball.checkSticky();
@@ -86,34 +98,41 @@ void draw() {
     
   // Drawing section
   
+  fill(255, 255, 255, 25);
+  rect(0, 0, margin, height); // left margin
+  rect(margin + gWidth, 0, margin, height); // right margin
+  
   player.draw();
   
   for(int i = 0; i < bricks.size(); i ++)
     bricks.get(i).draw();
   
   if(!title_screen) {
-    if(player.health > 2)
-      ball.draw(new PVector(width / 64.0 * 30.5, height / 64 * 65.5), 10);
-    if(player.health > 1)
-      ball.draw(new PVector(width / 64.0 * 32.0, height / 64 * 65.5), 10);
-    if(player.health > 0)
-      ball.draw(new PVector(width / 64.0 * 33.5, height / 64 * 65.5), 10);
+    if(player.health > 1) {
+      ball.draw(new PVector(width / 64.0 * 32.0 - 16 * gUnit, height - 16 * gUnit), 10);
+      ball.draw(new PVector(width / 64.0 * 32.0 + 16 * gUnit, height - 16 * gUnit), 10);
+    }
+    else if(player.health > 0)
+      ball.draw(new PVector(width / 64.0 * 32.0, height - 16 * gUnit), 10);
     textAlign(LEFT, CENTER);
-    textSize(30);
+    textSize(30 * gUnit);
     fill(255);
-    text("SCORE: " + player.score, width / 64 * 0.5, height / 64);
+    text("SCORE: " + player.score, gUnit * 16, gUnit * 24);
   }
+  
+  if(show_fps) {
+    text("FPS: " + ceil(frameRate), width / 64 * 0.5, gUnit * 40);
+  }
+  
   if(player.health > -1)
     ball.draw(ball.position, ball.r);
-  
-  
-  
+    
   if(game_over) {
     title_screen = false;
     fill(0, 0, 0, 200);
     rect(0, height / 3, width, height / 3);
     fill(255, 255, 255);
-    textSize(150);
+    textSize(150 * gUnit);
     textAlign(CENTER, CENTER);
     
     text("GAME OVER", width / 2, height / 5.0 * 2.1);
@@ -125,7 +144,7 @@ void draw() {
       bg_color = color(200, 0, 0);
     }
     fill(255);
-    textSize(40);
+    textSize(40 * gUnit);
     textAlign(CENTER, CENTER);
     if(frameCount % FPS * 2 < FPS) {
       text("Press ENTER to continue", width / 2, height / 20 * 13.75);

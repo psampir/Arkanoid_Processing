@@ -2,9 +2,10 @@ class Ball {
   PVector position, velocity;
   boolean sticky, bounced;
   int start_dir = 0;
-  final int r = 15, speed = 5;
+  final float r = 15 * gUnit, speed = 10 * gUnit;
   final float eff_vel = sqrt(pow(speed, 2) * 2);
-  final int perimeter_w = 3, lift_h = 30, offset = 0;
+  final float perimeter_w = 3 * gUnit, lift_h = 30 * gUnit, offset = 0;
+
   float test_x, test_y, dist_x, dist_y, dist, overlapLeft, overlapRight, overlapTop, overlapBottom, minOverlap;
   float[] overlaps = new float[4];
   final color inner_col = color(255, 255, 255), 
@@ -53,13 +54,13 @@ class Ball {
         print(frameCount + " hit top bound... \n");
       }
       
-      if((position.x - r <= 0)) { // left
+      if((position.x - r <= margin)) { // left
         bounced = true;
         velocity.x = abs(velocity.x);
         print(frameCount + " hit left bound... \n");
       }
       
-      if((position.x + r >= width)) { // right
+      if((position.x + r >= width - margin)) { // right
         bounced = true;
         velocity.x = abs(velocity.x) * - 1;
         print(frameCount + " hit right bound... \n");
@@ -101,21 +102,30 @@ class Ball {
       direction = 1;   
     
     if(abs(distance) < 10) // set vertical velocity depending on the distance
-      velocity.x = 1 * direction;
+      velocity.x = 1.5 * direction * gUnit;
     else if(abs(distance) < 20)
-      velocity.x = 2 * direction;
+      velocity.x = 3.0 * direction * gUnit;
     else if(abs(distance) < 30)
-      velocity.x = 3 * direction;
+      velocity.x = 5.0 * direction * gUnit;
     else if(abs(distance) < 40)
-      velocity.x = 4 * direction;
+      velocity.x = 7.0 * direction * gUnit;
     else if(abs(distance) < 50)
-      velocity.x = 5 * direction;
+      velocity.x = 9.0 * direction * gUnit;
     else if(abs(distance) < 60)
-      velocity.x = 6 * direction;
+      velocity.x = 10.0 * direction * gUnit;
+    else if(abs(distance) < 65)
+      velocity.x = 11.0 * direction * gUnit;
     else if(abs(distance) < 70)
-      velocity.x = 6.5 * direction;
-    else
-      velocity.x = 6.9 * direction;
+      velocity.x = 12.0 * direction * gUnit;
+    else if(abs(distance) < 75)
+      velocity.x = 13.0 * direction * gUnit;
+    else if(abs(distance) < 80)
+      velocity.x = 13.3 * direction * gUnit;
+    else if(abs(distance) < 85)
+      velocity.x = 13.5 * direction * gUnit;
+    else {
+      velocity.x = 13.7 * direction * gUnit;
+    }
        
     velocity.y = calcVerticalVelocity(velocity.x, eff_vel);
     
@@ -139,7 +149,7 @@ class Ball {
     } 
   }
 
-  String collision(PVector rect_pos, int rect_w, int rect_h) {
+  String collision(PVector rect_pos, float rect_w, float rect_h) {
     test_x = position.x; 
     test_y = position.y;
     
@@ -178,7 +188,7 @@ class Ball {
     return null;
   }
 
-  void draw(PVector position, int radius) {
+  void draw(PVector position, float radius) {
     fill(outer_col);
     circle(position.x, position.y, radius * 2);
     
