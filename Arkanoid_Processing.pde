@@ -79,8 +79,8 @@ void draw() {
       show_fps = false;
   }
   
-  if(keyPressed && key == '`')
-    player.score = 84;
+  //if(keyPressed && key == '`')
+  //  player.score = 84;
   
   player.checkBounds();
   ball.checkSticky();
@@ -98,7 +98,7 @@ void draw() {
     
   // Drawing section
   
-  fill(255, 255, 255, 25);
+  fill(255, 255, 255, 65);
   rect(0, 0, margin, height); // left margin
   rect(margin + gWidth, 0, margin, height); // right margin
   
@@ -121,7 +121,7 @@ void draw() {
   }
   
   if(show_fps) {
-    text("FPS: " + ceil(frameRate), width / 64 * 0.5, gUnit * 40);
+    text("FPS: " + ceil(frameRate), gUnit * 16, gUnit * 50);
   }
   
   if(player.health > -1)
