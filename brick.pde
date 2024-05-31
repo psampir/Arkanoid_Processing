@@ -1,7 +1,7 @@
 class Brick {
   PVector position;
   boolean destroyed;
-  final int w = 100, h = 50;
+  final float w = brick_w, h = brick_h;
   final float darkenAmount = 0.4;
   int col_number;
   color darkerColor, brighterColor;

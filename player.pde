@@ -1,8 +1,8 @@
 class Player {
   PVector position;
   int health, score = 0;
-  final int stripe_w = 40, circle_w = 20, small_c_w = 15;
-  final int w = 150, h = 30, velocity = 12;
+  final float stripe_w = 40 * gUnit, circle_w = 20 * gUnit, small_c_w = 15 * gUnit;
+  final float w = 150 * gUnit, h = 30 * gUnit, velocity = 24 * gUnit;
   final float darkenAmount = 0.4;
   color darkerColor, brighterColor;
   final color base_col = color(200, 200, 200), 
@@ -26,15 +26,15 @@ class Player {
   }
 
   void checkBounds() {
-    if (position.x > width - w) // right bound
-      position.x = width - w;
-    else if (position.x < 0) // left bound
-      position.x = 0;
+    if (position.x > width - margin - w) // right bound
+      position.x = width - margin - w;
+    else if (position.x < margin) // left bound
+      position.x = margin;
   }
   
   void reset() {
     position = new PVector(width / 2 - w / 2, height - h / 2 - 50);
-    health = 3;
+    health = 2;
     score = 0;
   }
 
